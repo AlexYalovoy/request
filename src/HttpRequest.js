@@ -1,3 +1,4 @@
+/*eslint-disable*/
 class HttpRequest {
   // get request options({ baseUrl, headers })
   constructor({ baseUrl, headers }) {
@@ -7,7 +8,11 @@ class HttpRequest {
 
   get(url, config) {
     const finalUrl = this.baseUrl + url;
-    const { transformResponse, headers, params, responseType } = config;
+    var  transformResponse, headers, params, responseType;
+
+    if (config) {
+      var { transformResponse, headers, params, responseType } = config;
+    }
 
     // Object.keys(params).forEach((k, i) => {
     //   finalUrl += i === 0 ? '?' : '&';
@@ -21,9 +26,9 @@ class HttpRequest {
       // Object.keys(this.headers).forEach(k => {
       //   xhr.setRequestHeader(k, this.headers[k]);
       // });
-      Object.keys(headers).forEach(k => {
-        xhr.setRequestHeader(`${k}`, `${headers[k]}`);
-      });
+      // Object.keys(headers).forEach(k => {
+      //   xhr.setRequestHeader(`${k}`, `${headers[k]}`);
+      // });
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState !== 4) {
@@ -46,15 +51,6 @@ class HttpRequest {
     return null;
   }
 }
-
-
-const reuest = new HttpRequest({
-  baseUrl: 'http://localhost:8000'
-});
-
-reuest.get('/form', { headers: { contentType: 'application/json' } })
-  .then()
-  .catch();
 
 /*
 const reuest = new HttpRequest({
