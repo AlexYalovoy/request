@@ -10,12 +10,6 @@ class HttpRequest {
     let finalUrl = new URL(this.baseUrl + url);
     const { transformResponse, headers, params, responseType } = config;
 
-    // finalUrl += params ? '?' : '';
-
-    // for (let key in params) {
-    //   finalUrl += `&${key}=${params[key]}`;
-    // }
-
     for (const key in params) {
       finalUrl.searchParams.set(key, params[key]);
     }
@@ -51,7 +45,37 @@ class HttpRequest {
   }
 
   post(url, config = {}) {
-    
+    const finalUrl = new URL(this.baseUrl + url);
+    const { transformResponse, headers, responseType, data } = config;
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', finalUrl);
+
+      for (let key in this.headers) {
+        xhr.setRequestHeader(key, this.headers[key]);
+      }
+
+      for (let key in headers) {
+        xhr.setRequestHeader(key, headers[key]);
+      }
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState !== 4) {
+          return;
+        }
+
+        const transformedResp = transformResponse ? transformResponse.reduce((acc,f) => f(acc), xhr.response) : xhr.response;
+
+        if (xhr.status !== 200) {
+          return reject(transformedResp);
+        }
+
+        resolve(transformedResp);
+      };
+      xhr.responseType = responseType ? responseType : '';
+      xhr.send(JSON.parse(data));
+    });
   }
 }
 
