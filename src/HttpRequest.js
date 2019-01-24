@@ -6,36 +6,38 @@ class HttpRequest {
     this.headers = headers;
   }
 
-  get(url, config) {
-    const finalUrl = this.baseUrl + url;
-    var  transformResponse, headers, params, responseType;
+  get(url, config = {}) {
+    let finalUrl = new URL(this.baseUrl + url);
+    const { transformResponse, headers, params, responseType } = config;
 
-    if (config) {
-      var { transformResponse, headers, params, responseType } = config;
+    // finalUrl += params ? '?' : '';
+
+    // for (let key in params) {
+    //   finalUrl += `&${key}=${params[key]}`;
+    // }
+
+    for (const key in params) {
+      finalUrl.searchParams.set(key, params[key]);
     }
-
-    // Object.keys(params).forEach((k, i) => {
-    //   finalUrl += i === 0 ? '?' : '&';
-    //   finalUrl += `${k}=${params[k]}`;
-    // });
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', finalUrl);
 
-      // Object.keys(this.headers).forEach(k => {
-      //   xhr.setRequestHeader(k, this.headers[k]);
-      // });
-      // Object.keys(headers).forEach(k => {
-      //   xhr.setRequestHeader(`${k}`, `${headers[k]}`);
-      // });
+      for (let key in this.headers) {
+        xhr.setRequestHeader(key, this.headers[key]);
+      }
+
+      for (let key in headers) {
+        xhr.setRequestHeader(key, headers[key]);
+      }
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState !== 4) {
           return;
         }
 
-        const transformedResp = transformResponse ? transformResponse(xhr.response) : xhr.response;
+        const transformedResp = transformResponse ? transformResponse.reduce((acc,f) => f(acc), xhr.response) : xhr.response;
 
         if (xhr.status !== 200) {
           return reject(transformedResp);
@@ -43,12 +45,13 @@ class HttpRequest {
 
         resolve(transformedResp);
       };
+      xhr.responseType = responseType ? responseType : '';
       xhr.send();
     });
   }
 
-  post(url, config) {
-    return null;
+  post(url, config = {}) {
+    
   }
 }
 
