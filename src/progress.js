@@ -45,7 +45,9 @@ document.getElementById('downloadForm').onsubmit = function(e) {
     		
     		// Set name of download
     		document.querySelector('.download').setAttribute('download', 'space.jpeg');
-
+		const image = document.createElement('img');
+		image.setAttribute('src', URL.createObjectURL(request.response));
+		document.body.appendChild(image);
     
         }
     });
