@@ -6,6 +6,12 @@ class HttpRequest {
     this.headers = headers;
   }
 
+  setHeaders(xhr, headers) {
+    for (let key in headers) {
+      xhr.setRequestHeader(key, headers[key]);
+    }
+  }
+
   get(url, config = {}) {
     let finalUrl = new URL(this.baseUrl + url);
     const { transformResponse, headers, params, responseType } = config;
@@ -18,13 +24,7 @@ class HttpRequest {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', finalUrl);
 
-      for (let key in this.headers) {
-        xhr.setRequestHeader(key, this.headers[key]);
-      }
-
-      for (let key in headers) {
-        xhr.setRequestHeader(key, headers[key]);
-      }
+      this.setHeaders(xhr, {...this.headers, ...headers});
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState !== 4) {
@@ -45,20 +45,15 @@ class HttpRequest {
   }
 
   post(url, config = {}) {
-    const finalUrl = new URL(this.baseUrl + url);
+    const finalUrl = url ? new URL(this.baseUrl + url) : new URL(this.baseUrl);
+    console.log(finalUrl)
     const { transformResponse, headers, responseType, data } = config;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open('POST', finalUrl);
 
-      for (let key in this.headers) {
-        xhr.setRequestHeader(key, this.headers[key]);
-      }
-
-      for (let key in headers) {
-        xhr.setRequestHeader(key, headers[key]);
-      }
+      this.setHeaders(xhr, {...this.headers, ...headers});
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState !== 4) {
@@ -73,8 +68,9 @@ class HttpRequest {
 
         resolve(transformedResp);
       };
+
       xhr.responseType = responseType ? responseType : '';
-      xhr.send(JSON.parse(data));
+      xhr.send(data);
     });
   }
 }
