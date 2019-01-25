@@ -23,3 +23,42 @@ const reuest = new HttpRequest({
 reuest.get('/ping')
   .then(console.log)
   .catch();
+
+
+document.getElementById('downloadForm').onsubmit = function(e) {
+	e.preventDefault();
+	const request = new XMLHttpRequest();
+    
+    request.addEventListener('readystatechange', function(e) {
+    	if(request.readyState == 2 && request.status == 200) {
+    		// Download is being started
+    	}
+    	else if(request.readyState == 3) {
+    		// Download is under progress
+    	}
+    	else if(request.readyState == 4) {
+    		// Downloaing has finished
+
+    	
+    		// Set href as a local object URL
+    		document.querySelector('.download').setAttribute('href', URL.createObjectURL(request.response));
+    		
+    		// Set name of download
+    		document.querySelector('.download').setAttribute('download', 'space.jpeg');
+
+    
+        }
+    });
+
+    request.addEventListener('progress', function(e) {
+    	var percent_complete = (e.loaded / e.total)*100;
+    	console.log(percent_complete);
+    });
+    
+    request.responseType = 'blob';
+    
+    // Downloading a JPEG file
+    request.open('get', 'http://localhost:8000/files/bigSmile.jpeg'); 
+    
+    request.send(); 
+};
