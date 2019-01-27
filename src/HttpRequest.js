@@ -14,7 +14,7 @@ class HttpRequest {
 
   get(url, config = {}) {
     let finalUrl = new URL(this.baseUrl + url);
-    const { transformResponse, headers, params, responseType } = config;
+    const { transformResponse, headers, params, responseType, onDownloadProgress } = config;
 
     for (const key in params) {
       finalUrl.searchParams.set(key, params[key]);
@@ -25,6 +25,8 @@ class HttpRequest {
       xhr.open('GET', finalUrl);
 
       this.setHeaders(xhr, {...this.headers, ...headers});
+
+      xhr.onprogress = onDownloadProgress;
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState !== 4) {
@@ -46,14 +48,15 @@ class HttpRequest {
 
   post(url, config = {}) {
     const finalUrl = url ? new URL(this.baseUrl + url) : new URL(this.baseUrl);
-    console.log(finalUrl)
-    const { transformResponse, headers, responseType, data } = config;
+    const { transformResponse, headers, responseType, data, onUploadProgress } = config;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open('POST', finalUrl);
 
       this.setHeaders(xhr, {...this.headers, ...headers});
+
+      xhr.upload.onprogress = onUploadProgress;
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState !== 4) {

@@ -4,10 +4,12 @@
       encType="multipart/form-data">
       <input type="file" name="sampleFile" />
       <input type='submit' value='Upload!' />
+      <progress id = 'uploadProgress' value = '0' max = "100"></progress>
     </form>
     <form id='downloadForm'>
       <input type="text" name="sampleFile" />
       <input type='submit' value='Download'/>
+      <progress id = 'downloadProgress' value = '0' max="100"></progress>
     </form>
 </body>
 <script src="/HttpRequest.js" ></script>
