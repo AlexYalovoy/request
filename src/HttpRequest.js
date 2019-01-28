@@ -1,4 +1,3 @@
-/*eslint-disable*/
 class HttpRequest {
   // get request options({ baseUrl, headers })
   constructor({ baseUrl, headers }) {
@@ -6,14 +5,14 @@ class HttpRequest {
     this.headers = headers;
   }
 
-  setHeaders(xhr, headers) {
-    for (let key in headers) {
-      xhr.setRequestHeader(key, headers[key]);
+  setHeaders(headers) {
+    for (const key in headers) {
+      this.setRequestHeader(key, headers[key]);
     }
   }
 
   get(url, config = {}) {
-    let finalUrl = new URL(this.baseUrl + url);
+    const finalUrl = new URL(this.baseUrl + url);
     const { transformResponse, headers, params, responseType, onDownloadProgress } = config;
 
     for (const key in params) {
@@ -24,7 +23,7 @@ class HttpRequest {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', finalUrl);
 
-      this.setHeaders(xhr, {...this.headers, ...headers});
+      this.setHeaders({ ...this.headers, ...headers });
 
       xhr.onprogress = onDownloadProgress;
 
@@ -33,15 +32,18 @@ class HttpRequest {
           return;
         }
 
-        const transformedResp = transformResponse ? transformResponse.reduce((acc,f) => f(acc), xhr.response) : xhr.response;
+        const isImage = (/image/).test(xhr.getResponseHeader('Content-Type'));
+        const transformedResp = transformResponse
+          ? transformResponse.reduce((acc, f) => f(acc), xhr.response)
+          : xhr.response;
 
         if (xhr.status !== 200) {
-          return reject(transformedResp);
+          return reject(new Error(`There is ${xhr.status} code status.`));
         }
 
-        resolve(transformedResp);
+        resolve({ response: transformedResp, isImage });
       };
-      xhr.responseType = responseType ? responseType : '';
+      xhr.responseType = responseType ? responseType : 'json';
       xhr.send();
     });
   }
@@ -54,7 +56,7 @@ class HttpRequest {
       const xhr = new XMLHttpRequest();
       xhr.open('POST', finalUrl);
 
-      this.setHeaders(xhr, {...this.headers, ...headers});
+      this.setHeaders({ ...this.headers, ...headers });
 
       xhr.upload.onprogress = onUploadProgress;
 
@@ -63,7 +65,9 @@ class HttpRequest {
           return;
         }
 
-        const transformedResp = transformResponse ? transformResponse.reduce((acc,f) => f(acc), xhr.response) : xhr.response;
+        const transformedResp = transformResponse
+          ? transformResponse.reduce((acc, f) => f(acc), xhr.response)
+          : xhr.response;
 
         if (xhr.status !== 200) {
           return reject(transformedResp);
@@ -72,7 +76,7 @@ class HttpRequest {
         resolve(transformedResp);
       };
 
-      xhr.responseType = responseType ? responseType : '';
+      xhr.responseType = responseType ? responseType : 'json';
       xhr.send(data);
     });
   }
