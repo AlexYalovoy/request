@@ -1,9 +1,3 @@
-function setHeaders(xhr, headers) {
-  for (const key in headers) {
-    xhr.setRequestHeader(key, headers[key]);
-  }
-}
-
 function getFinalUrl(host, url, params) {
   const finalUrl = new URL(url, host);
 
@@ -12,6 +6,58 @@ function getFinalUrl(host, url, params) {
   }
 
   return finalUrl;
+}
+
+function getconfiguratedXHR({ method, finalUrl, headers, responseType, onDownloadProgress, onUploadProgress }) {
+  const xhr = new XMLHttpRequest();
+  xhr.open(method, finalUrl);
+  xhr.responseType = responseType === undefined ? 'json' : responseType;
+
+  for (const key in headers) {
+    xhr.setRequestHeader(key, headers[key]);
+  }
+
+  if (method === 'GET' && onDownloadProgress !== undefined) {
+    xhr.onprogress = onDownloadProgress;
+  } else if (method === 'POST' && onUploadProgress !== undefined) {
+    xhr.upload.onprogress = onUploadProgress;
+  }
+
+  return xhr;
+}
+
+function isFunctionsArray(array) {
+  if (array === undefined) {
+    return false;
+  }
+
+  array.every((el, i) => {
+    if (typeof el === 'function') {
+      return true;
+    }
+    throw new Error(`${i} element of transformResponse array isn't a function`);
+  });
+
+  return true;
+}
+
+function onLoad(xhr, transformResponse, resolve) {
+  return () => {
+    const type = xhr.getResponseHeader('Content-Type');
+    let transformedResponse = null;
+
+    if (isFunctionsArray(transformResponse)) {
+      transformedResponse = transformResponse.reduce((acc, f) => f(acc), xhr.response);
+    } else {
+      transformedResponse = xhr.response;
+    }
+
+    resolve({ response: transformedResponse, type });
+  };
+}
+
+function onError(xhr, reject) {
+  return () => reject(new Error(`There is ${xhr.status} code status. ${xhr.statusText}.`));
 }
 
 class HttpRequest {
@@ -23,32 +69,20 @@ class HttpRequest {
   get(url, config = {}) {
     const { transformResponse, headers, params, responseType, onDownloadProgress } = config;
     const finalUrl = getFinalUrl(this.baseUrl, url, params);
+    const customConfig = {
+      method: 'GET',
+      finalUrl,
+      headers: { ...this.headers, ...headers },
+      responseType,
+      onDownloadProgress
+    };
 
     return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', finalUrl);
+      const xhr = getconfiguratedXHR(customConfig);
 
-      setHeaders({ ...this.headers, ...headers });
+      xhr.onload = onLoad(xhr, transformResponse, resolve);
+      xhr.onerror = onError(xhr, reject);
 
-      xhr.onprogress = onDownloadProgress;
-
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState !== 4) {
-          return;
-        }
-
-        const type = xhr.getResponseHeader('Content-Type');
-        const transformedResp = transformResponse
-          ? transformResponse.reduce((acc, f) => f(acc), xhr.response)
-          : xhr.response;
-
-        if (xhr.status !== 200) {
-          return reject(new Error(`There is ${xhr.status} code status.`));
-        }
-
-        resolve({ response: transformedResp, type });
-      };
-      xhr.responseType = responseType ? responseType : 'json';
       xhr.send();
     });
   }
@@ -56,32 +90,20 @@ class HttpRequest {
   post(url, config = {}) {
     const { transformResponse, headers, responseType, data, onUploadProgress } = config;
     const finalUrl = getFinalUrl(this.baseUrl, url);
+    const customConfig = {
+      method: 'POST',
+      finalUrl,
+      headers: { ...this.headers, ...headers },
+      responseType,
+      onUploadProgress
+    };
 
     return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', finalUrl);
+      const xhr = getconfiguratedXHR(customConfig);
 
-      setHeaders({ ...this.headers, ...headers });
+      xhr.onload = onLoad(xhr, transformResponse, resolve);
+      xhr.onerror = onError(xhr, reject);
 
-      xhr.upload.onprogress = onUploadProgress;
-
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState !== 4) {
-          return;
-        }
-
-        const transformedResp = transformResponse
-          ? transformResponse.reduce((acc, f) => f(acc), xhr.response)
-          : xhr.response;
-
-        if (xhr.status !== 200) {
-          return reject(transformedResp);
-        }
-
-        resolve(transformedResp);
-      };
-
-      xhr.responseType = responseType ? responseType : 'json';
       xhr.send(data);
     });
   }
