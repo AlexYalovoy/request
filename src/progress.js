@@ -44,15 +44,6 @@ document.getElementById('uploadForm').onsubmit = function(e) {
   reuest.post('/upload', { data: form, onUploadProgress: onUpload, responseType: 'blob' }) // eslint-disable-line
 };
 
-// const reuest = new HttpRequest({
-//   baseUrl: 'http://localhost:8000'
-// });
-
-// reuest.get('/ping')
-//   .then(console.log)
-//   .catch();
-
-
 document.getElementById('downloadForm').onsubmit = function(e) {
   e.preventDefault();
   const request = new HttpRequest({ // eslint-disable-line
