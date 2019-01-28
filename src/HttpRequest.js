@@ -1,29 +1,34 @@
+function setHeaders(xhr, headers) {
+  for (const key in headers) {
+    xhr.setRequestHeader(key, headers[key]);
+  }
+}
+
+function getFinalUrl(host, url, params) {
+  const finalUrl = new URL(url, host);
+
+  for (const key in params) {
+    finalUrl.searchParams.set(key, params[key]);
+  }
+
+  return finalUrl;
+}
+
 class HttpRequest {
-  // get request options({ baseUrl, headers })
   constructor({ baseUrl, headers }) {
     this.baseUrl = baseUrl;
     this.headers = headers;
   }
 
-  setHeaders(headers) {
-    for (const key in headers) {
-      this.setRequestHeader(key, headers[key]);
-    }
-  }
-
   get(url, config = {}) {
-    const finalUrl = new URL(this.baseUrl + url);
     const { transformResponse, headers, params, responseType, onDownloadProgress } = config;
-
-    for (const key in params) {
-      finalUrl.searchParams.set(key, params[key]);
-    }
+    const finalUrl = getFinalUrl(this.baseUrl, url, params);
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', finalUrl);
 
-      this.setHeaders({ ...this.headers, ...headers });
+      setHeaders({ ...this.headers, ...headers });
 
       xhr.onprogress = onDownloadProgress;
 
@@ -49,14 +54,14 @@ class HttpRequest {
   }
 
   post(url, config = {}) {
-    const finalUrl = url ? new URL(this.baseUrl + url) : new URL(this.baseUrl);
     const { transformResponse, headers, responseType, data, onUploadProgress } = config;
+    const finalUrl = getFinalUrl(this.baseUrl, url);
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open('POST', finalUrl);
 
-      this.setHeaders({ ...this.headers, ...headers });
+      setHeaders({ ...this.headers, ...headers });
 
       xhr.upload.onprogress = onUploadProgress;
 
