@@ -3,16 +3,22 @@ document.getElementById('uploadForm').onsubmit = function(e) {
   const form = new FormData();
   const onUpload = e => {
     document.getElementById('uploadProgress')
-      .value = e.loaded * 100 / e.total;
+      .style.width = `${e.loaded * 100 / e.total}%`;
+
+    if (e.loaded === e.total && e.total !== 0) {
+      setTimeout(() => {
+        document.getElementById('uploadProgress')
+          .style.width = 0;
+      }, 1000);
+    }
   };
 
   const reuest = new HttpRequest({  // eslint-disable-line
-
     baseUrl: 'http://localhost:8000'
   });
 
   form.append('sampleFile', e.target.sampleFile.files[0]);
-  reuest.post('/upload', { data: form, onUploadProgress: onUpload })
+  reuest.post('/upload', { data: form, onUploadProgress: onUpload, responseType: 'blob' })
     .then(console.log); // eslint-disable-line
 };
 
@@ -33,12 +39,19 @@ document.getElementById('downloadForm').onsubmit = function(e) {
   const fileName = document.querySelector('input[type=text]').value;
   const onDownload = e => {
     document.getElementById('downloadProgress')
-      .value = e.loaded * 100 / e.total;
+      .style.width = `${e.loaded * 100 / e.total}%`;
+
+    if (e.loaded === e.total && e.total !== 0) {
+      setTimeout(() => {
+        document.getElementById('downloadProgress')
+          .style.width = 0;
+      }, 1000);
+    }
   };
 
   request.get(`/files/${fileName}`, { responseType: 'blob', onDownloadProgress: onDownload })
-    .then(({ response, isImage }) => {
-      const blob = new Blob([response], { type: 'application/pdf' });
+    .then(({ response, type }) => {
+      const blob = new Blob([response], { type });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
       link.download = fileName;
@@ -48,16 +61,32 @@ document.getElementById('downloadForm').onsubmit = function(e) {
       link.click();
 
       document.body.removeChild(link);
-      return { response, isImage };
+      return { response, type };
     })
-    .then(({ response, isImage }) => {
-      if (!isImage) {
+    .then(({ response, type }) => {
+      if (type !== 'image/jpeg') {
         return;
       }
 
       const url = URL.createObjectURL(response);
-      const img = document.createElement('img');
+      let figure = document.getElementsByClassName('preview')[0];
+      let img = document.getElementsByClassName('preview-image')[0];
+
+      if (figure) {
+        img.src = url;
+        return;
+      }
+
+      figure = document.createElement('figure');
+      figure.className = 'preview';
+      img = document.createElement('img');
+      img.className = 'preview-image';
       img.src = url;
-      document.body.appendChild(img);
+      const figcaption = document.createElement('figcaption');
+      figcaption.innerText = 'Preview image';
+      figure.appendChild(img);
+      figure.appendChild(figcaption);
+
+      document.getElementsByClassName('main')[0].appendChild(figure);
     });
 };

@@ -1,0 +1,35 @@
+body {
+  padding: 0;
+  margin: 0;
+  background: url('./background.jpg');
+  background-size: 100%;
+}
+
+main {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  height: 100%;
+}
+
+#uploadProgress, #uploadProgress-container {
+  height: 5px;
+  position: fixed;
+  top: 0;
+}
+
+.input-group {
+  width: 350px !important;
+}
+
+.preview-image {
+  width: 500px;
+  height: auto;
+}
+.preview {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}

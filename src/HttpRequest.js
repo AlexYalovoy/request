@@ -32,7 +32,7 @@ class HttpRequest {
           return;
         }
 
-        const isImage = (/image/).test(xhr.getResponseHeader('Content-Type'));
+        const type = xhr.getResponseHeader('Content-Type');
         const transformedResp = transformResponse
           ? transformResponse.reduce((acc, f) => f(acc), xhr.response)
           : xhr.response;
@@ -41,7 +41,7 @@ class HttpRequest {
           return reject(new Error(`There is ${xhr.status} code status.`));
         }
 
-        resolve({ response: transformedResp, isImage });
+        resolve({ response: transformedResp, type });
       };
       xhr.responseType = responseType ? responseType : 'json';
       xhr.send();
