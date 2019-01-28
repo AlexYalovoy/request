@@ -1,65 +1,3 @@
-function getFinalUrl(host, url, params) {
-  const finalUrl = new URL(url, host);
-
-  for (const key in params) {
-    finalUrl.searchParams.set(key, params[key]);
-  }
-
-  return finalUrl;
-}
-
-function getconfiguratedXHR({ method, finalUrl, headers, responseType, onDownloadProgress, onUploadProgress }) {
-  const xhr = new XMLHttpRequest();
-  xhr.open(method, finalUrl);
-  xhr.responseType = responseType === undefined ? 'json' : responseType;
-
-  for (const key in headers) {
-    xhr.setRequestHeader(key, headers[key]);
-  }
-
-  if (method === 'GET' && onDownloadProgress !== undefined) {
-    xhr.onprogress = onDownloadProgress;
-  } else if (method === 'POST' && onUploadProgress !== undefined) {
-    xhr.upload.onprogress = onUploadProgress;
-  }
-
-  return xhr;
-}
-
-function isFunctionsArray(array) {
-  if (array === undefined) {
-    return false;
-  }
-
-  array.every((el, i) => {
-    if (typeof el === 'function') {
-      return true;
-    }
-    throw new Error(`${i} element of transformResponse array isn't a function`);
-  });
-
-  return true;
-}
-
-function onLoad(xhr, transformResponse, resolve) {
-  return () => {
-    const type = xhr.getResponseHeader('Content-Type');
-    let transformedResponse = null;
-
-    if (isFunctionsArray(transformResponse)) {
-      transformedResponse = transformResponse.reduce((acc, f) => f(acc), xhr.response);
-    } else {
-      transformedResponse = xhr.response;
-    }
-
-    resolve({ response: transformedResponse, type });
-  };
-}
-
-function onError(xhr, reject) {
-  return () => reject(new Error(`There is ${xhr.status} code status. ${xhr.statusText}.`));
-}
-
 class HttpRequest {
   constructor({ baseUrl, headers }) {
     this.baseUrl = baseUrl;
@@ -68,7 +6,7 @@ class HttpRequest {
 
   get(url, config = {}) {
     const { transformResponse, headers, params, responseType, onDownloadProgress } = config;
-    const finalUrl = getFinalUrl(this.baseUrl, url, params);
+    const finalUrl = getFinalUrl(this.baseUrl, url, params); // eslint-disable-line
     const customConfig = {
       method: 'GET',
       finalUrl,
@@ -78,10 +16,10 @@ class HttpRequest {
     };
 
     return new Promise((resolve, reject) => {
-      const xhr = getconfiguratedXHR(customConfig);
+      const xhr = getconfiguratedXHR(customConfig); // eslint-disable-line
 
-      xhr.onload = onLoad(xhr, transformResponse, resolve);
-      xhr.onerror = onError(xhr, reject);
+      xhr.onload = onLoad(xhr, transformResponse, resolve); // eslint-disable-line
+      xhr.onerror = onError(xhr, reject); // eslint-disable-line
 
       xhr.send();
     });
@@ -89,7 +27,7 @@ class HttpRequest {
 
   post(url, config = {}) {
     const { transformResponse, headers, responseType, data, onUploadProgress } = config;
-    const finalUrl = getFinalUrl(this.baseUrl, url);
+    const finalUrl = getFinalUrl(this.baseUrl, url);  // eslint-disable-line
     const customConfig = {
       method: 'POST',
       finalUrl,
@@ -99,10 +37,10 @@ class HttpRequest {
     };
 
     return new Promise((resolve, reject) => {
-      const xhr = getconfiguratedXHR(customConfig);
+      const xhr = getconfiguratedXHR(customConfig); // eslint-disable-line
 
-      xhr.onload = onLoad(xhr, transformResponse, resolve);
-      xhr.onerror = onError(xhr, reject);
+      xhr.onload = onLoad(xhr, transformResponse, resolve); // eslint-disable-line
+      xhr.onerror = onError(xhr, reject); // eslint-disable-line
 
       xhr.send(data);
     });

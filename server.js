@@ -9,6 +9,7 @@ app.use('/index.css', express.static(`${__dirname}/index.css`));
 app.use('/background.jpg', express.static(`${__dirname}/src/background.jpg`));
 app.use('/progress.js', express.static(`${__dirname}/src/progress.js`));
 app.use('/HttpRequest.js', express.static(`${__dirname}/src/HttpRequest.js`));
+app.use('/HttpRequestUtils.js', express.static(`${__dirname}/src/HttpRequestUtils.js`));
 app.use('/files', express.static(`${__dirname}/uploads`));
 
 // default options
