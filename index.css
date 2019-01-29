@@ -1,6 +1,6 @@
 body {
   padding: 0;
-  padding-top: 7%;
+  padding-top: 10%;
   margin: 0;
   background: url('./background.jpg');
   background-size: cover;
@@ -30,6 +30,10 @@ main {
 
 .input-group {
   width: 500px !important;
+}
+
+.upload-btn, .download-btn {
+  width: 100px;
 }
 
 .preview-image {
