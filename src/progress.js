@@ -54,12 +54,22 @@ function getExitButton() {
   return button;
 }
 
+function setPreviewImage(response) {
+  if (document.querySelector('.preview')) {
+    document.querySelector('.preview-image').src = URL.createObjectURL(response);
+    return;
+  }
+
+  const image = getPreviewImage(response);
+  document.querySelector('.forms').appendChild(image);
+}
+
 document.getElementsByName('sampleFile')[0].onchange = function(e) {
-  const uploadButton = document.getElementsByClassName('upload-btn')[0];
-  const label = document.getElementsByClassName('custom-file-label')[0];
   const { files } = e.target;
 
   if (files.length > 0) {
+    const uploadButton = document.getElementsByClassName('upload-btn')[0];
+    const label = document.getElementsByClassName('custom-file-label')[0];
     uploadButton.removeAttribute('disabled');
     label.innerHTML = `${files[0].name}`;
   }
@@ -102,14 +112,7 @@ document.getElementById('downloadForm').onsubmit = function(e) {
       if (!isImage(response.type)) {
         return;
       }
-
-      if (document.querySelector('.preview')) {
-        document.querySelector('.preview-image').src = URL.createObjectURL(response);
-        return;
-      }
-
-      const image = getPreviewImage(response);
-      document.querySelector('.forms').appendChild(image);
+      setPreviewImage(response);
     });
 };
 
