@@ -1,9 +1,10 @@
-body {
+.body {
   padding: 0;
   padding-top: 10%;
   margin: 0;
   background: url('./background.jpg');
   background-size: cover;
+  font-family: 'Open Sans', sans-serif;
 }
 
 main {
@@ -36,6 +37,14 @@ main {
   width: 100px;
 }
 
+.custom-file-input:hover {
+  cursor: pointer;
+}
+
+.upload-label {
+  color: #6c757d !important;
+}
+
 .preview-image {
   width: 500px;
   height: auto;
@@ -46,6 +55,8 @@ main {
   display: flex;
   flex-direction: column;
   text-align: center;
+  color: #6c757d;
+  
 }
 
 .dir-list-wrapper {
@@ -54,7 +65,8 @@ main {
 }
 
 .dir-list {
-  border-width: 1px;
+  border: 1px #6c757d;
+  color: #6c757d;
 }
 
 .dir-list-btn {
