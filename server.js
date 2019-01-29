@@ -7,6 +7,7 @@ app.use('/form', express.static(`${__dirname}/index.html`));
 app.use('/index.css', express.static(`${__dirname}/index.css`));
 app.use('/background.jpg', express.static(`${__dirname}/src/background.jpg`));
 app.use('/onProgress.js', express.static(`${__dirname}/src/onProgress.js`));
+app.use('/progressUtils.js', express.static(`${__dirname}/src/progressUtils.js`));
 app.use('/progress.js', express.static(`${__dirname}/src/progress.js`));
 app.use('/HttpRequest.js', express.static(`${__dirname}/src/HttpRequest.js`));
 app.use('/HttpRequestUtils.js', express.static(`${__dirname}/src/HttpRequestUtils.js`));
