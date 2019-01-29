@@ -41,6 +41,26 @@ function getFilledList(response) {
   return ul;
 }
 
+document.getElementsByName('sampleFile')[0].onchange = function(e) {
+  const uploadButton = document.getElementsByClassName('upload-btn')[0];
+  uploadButton.removeAttribute('disabled');
+};
+
+document.getElementsByName('sampleFile')[0].onchange = function(e) {
+  const uploadButton = document.getElementsByClassName('upload-btn')[0];
+  uploadButton.removeAttribute('disabled');
+};
+
+document.getElementsByClassName('download-input')[0].oninput = function(e) {
+  const downloadBtn = document.getElementsByClassName('download-btn')[0];
+
+  if (!e.target.value) {
+    downloadBtn.setAttribute('disabled', 'true');
+  } else {
+    downloadBtn.removeAttribute('disabled');
+  }
+};
+
 document.getElementById('uploadForm').onsubmit = function(e) {
   e.preventDefault();
   const form = new FormData();
