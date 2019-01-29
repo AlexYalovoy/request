@@ -43,12 +43,13 @@ function getFilledList(response) {
 
 document.getElementsByName('sampleFile')[0].onchange = function(e) {
   const uploadButton = document.getElementsByClassName('upload-btn')[0];
-  uploadButton.removeAttribute('disabled');
-};
+  const label = document.getElementsByClassName('custom-file-label')[0];
+  const { files } = e.target;
 
-document.getElementsByName('sampleFile')[0].onchange = function(e) {
-  const uploadButton = document.getElementsByClassName('upload-btn')[0];
-  uploadButton.removeAttribute('disabled');
+  if (files.length > 0) {
+    uploadButton.removeAttribute('disabled');
+    label.innerHTML = `${files[0].name}`;
+  }
 };
 
 document.getElementsByClassName('download-input')[0].oninput = function(e) {
