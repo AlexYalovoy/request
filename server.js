@@ -1,8 +1,7 @@
-/*eslint-disable*/
-
 const express = require('express');
 const fileUpload = require('express-fileupload');
 const app = express();
+const fs = require('fs');
 
 app.use('/form', express.static(`${__dirname}/index.html`));
 app.use('/index.css', express.static(`${__dirname}/index.css`));
@@ -22,19 +21,26 @@ app.post('/ping', function(req, res) {
 app.get('/ping', function(req, res) {
   res.send('pong');
 });
+app.get('/list', function(req, res) {
+  fs.readdir('./', (err, files) => {
+    if (err) {
+      return res.send(err);
+    }
+    res.send(files);
+  });
+});
 
 app.post('/upload', function(req, res) {
-  let sampleFile;
-  let uploadPath;
+  let uploadPath = null;
 
-  if (Object.keys(req.files).length == 0) {
+  if (Object.keys(req.files).length === 0) {
     res.status(400).send('No files were uploaded.');
     return;
   }
 
   console.log('req.files >>>', req.files); // eslint-disable-line
 
-  sampleFile = req.files.sampleFile;
+  const { sampleFile } = req.files;
 
   uploadPath = `${__dirname}/uploads/${sampleFile.name}`;
 
