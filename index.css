@@ -62,11 +62,13 @@ main {
 .dir-list-wrapper {
   display: flex;
   flex-direction: column;
+  width: 200px;
 }
 
 .dir-list {
   border: 1px #6c757d;
   color: #6c757d;
+  word-break: break-word;
 }
 
 .dir-list-btn {
