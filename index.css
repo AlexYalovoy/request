@@ -11,7 +11,7 @@ main {
   justify-content: space-around;
   align-items: start;
   height: 100%;
-  padding: 0 12% 0;
+  padding: 0 15% 0;
 }
 
 .forms {
@@ -36,6 +36,8 @@ main {
 .preview-image {
   width: 500px;
   height: auto;
+  border-radius: 3px;
+  margin-bottom: 16px;
 }
 .preview {
   display: flex;
