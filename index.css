@@ -10,7 +10,6 @@ main {
   display: flex !important;
   justify-content: space-around;
   align-items: start;
-  height: 100%;
   padding: 0 15% 0;
 }
 
