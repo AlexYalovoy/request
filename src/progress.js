@@ -75,7 +75,7 @@ document.getElementById('downloadForm').onsubmit = function(e) {
       }
 
       const image = getPreviewImage(response);
-      document.querySelector('.main').appendChild(image);
+      document.querySelector('.forms').appendChild(image);
     });
 };
 
