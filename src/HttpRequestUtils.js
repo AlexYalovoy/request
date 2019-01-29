@@ -52,7 +52,7 @@ function onLoad(xhr, transformResponse, resolve) {
       transformedResponse = xhr.response;
     }
 
-    resolve({ response: transformedResponse, type });
+    resolve(transformedResponse);
   };
 }
 

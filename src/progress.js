@@ -1,5 +1,5 @@
-function downloadFile({ response, type }, fileName) {
-  const blob = new Blob([response], { type });
+function downloadFile(response, fileName) {
+  const blob = new Blob([response], { type: response.type });
   const link = document.createElement('a');
   link.href = window.URL.createObjectURL(blob);
   link.download = fileName;
@@ -94,12 +94,12 @@ document.getElementById('downloadForm').onsubmit = function(e) {
   const fileName = document.querySelector('input[type=text]').value;
 
   request.get(`/files/${fileName}`, { responseType: 'blob', onDownloadProgress: onDownload }) // eslint-disable-line
-    .then(({ response, type }) => {
-      downloadFile({ response, type }, fileName);
-      return { response, type };
+    .then(response => {
+      downloadFile(response, fileName);
+      return response;
     })
-    .then(({ response, type }) => {
-      if (!isImage(type)) {
+    .then(response => {
+      if (!isImage(response.type)) {
         return;
       }
 
@@ -118,7 +118,7 @@ document.querySelector('.dir-list-btn').onclick = function(e) {
     baseUrl: 'http://localhost:8000'
   });
   request.get('/list', { responseType: 'json' })
-    .then(({ response }) => {
+    .then(response => {
       const listContainer = document.querySelector('.dir-list');
       const ul = getFilledList(response);
 
