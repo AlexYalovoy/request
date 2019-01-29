@@ -22,7 +22,7 @@ app.get('/ping', function(req, res) {
   res.send('pong');
 });
 app.get('/list', function(req, res) {
-  fs.readdir('./', (err, files) => {
+  fs.readdir('./uploads', (err, files) => {
     if (err) {
       return res.send(err);
     }

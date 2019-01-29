@@ -48,6 +48,10 @@ main {
   flex-direction: column;
 }
 
+.dir-list {
+  border-width: 1px;
+}
+
 .dir-list-btn {
   margin-bottom: 16px;
 }
@@ -60,4 +64,15 @@ main {
   padding-left: 20px;
   border: 1px solid gray;
   border-radius: 3px;
+  position: relative;
+}
+
+.exit-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.exit-btn:hover {
+  cursor: pointer;
 }

@@ -41,6 +41,19 @@ function getFilledList(response) {
   return ul;
 }
 
+function getExitButton() {
+  const button = document.createElement('i');
+  button.classList.add('far');
+  button.classList.add('fa-times-circle');
+  button.classList.add('exit-btn');
+  button.onclick = e => {
+    const listWrapper = document.querySelector('.dir-list');
+    const list = document.querySelector('.dir-list ul');
+    listWrapper.removeChild(list);
+  };
+  return button;
+}
+
 document.getElementsByName('sampleFile')[0].onchange = function(e) {
   const uploadButton = document.getElementsByClassName('upload-btn')[0];
   const label = document.getElementsByClassName('custom-file-label')[0];
@@ -107,9 +120,10 @@ document.querySelector('.dir-list-btn').onclick = function(e) {
   request.get('/list', { responseType: 'json' })
     .then(({ response }) => {
       const listContainer = document.querySelector('.dir-list');
-      listContainer.innerHTML = '';
       const ul = getFilledList(response);
+
+      listContainer.innerHTML = '';
+      ul.appendChild(getExitButton());
       listContainer.appendChild(ul);
-      listContainer.style.borderWidth = '1px';
     });
 };
