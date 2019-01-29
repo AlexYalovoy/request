@@ -5,6 +5,8 @@ const onUpload = e => {
   if (e.loaded === e.total && e.total !== 0) {
     setTimeout(() => {
       document.getElementById('uploadProgress')
+        .style.opacity = 0;
+      document.getElementById('uploadProgress')
         .style.width = 0;
     }, 1000);
   }
@@ -16,6 +18,8 @@ const onDownload = e => {
 
   if (e.loaded === e.total && e.total !== 0) {
     setTimeout(() => {
+      document.getElementById('downloadProgress')
+        .style.opacity = 0;
       document.getElementById('downloadProgress')
         .style.width = 0;
     }, 1000);
