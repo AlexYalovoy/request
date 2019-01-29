@@ -1,5 +1,6 @@
 body {
   padding: 0;
+  padding-top: 10%;
   margin: 0;
   background: url('./background.jpg');
   background-size: 100%;
@@ -7,9 +8,8 @@ body {
 
 main {
   display: flex !important;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  justify-content: space-around;
+  align-items: start;
 
   height: 100%;
 }
@@ -32,4 +32,23 @@ main {
   display: flex;
   flex-direction: column;
   text-align: center;
+}
+
+.dir-list-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.dir-list-btn {
+  margin-bottom: 16px;
+}
+
+.dir-list ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  padding: 10px;
+  padding-left: 20px;
+  border: 1px solid gray;
+  border-radius: 3px;
 }

@@ -33,6 +33,14 @@ function isImage(contentType) {
   return RE.test(contentType);
 }
 
+function getFilledList(response) {
+  const ul = document.createElement('ul');
+  response.forEach(el => {
+    ul.innerHTML += `<li>${el}</li>`;
+  });
+  return ul;
+}
+
 document.getElementById('uploadForm').onsubmit = function(e) {
   e.preventDefault();
   const form = new FormData();
@@ -68,5 +76,19 @@ document.getElementById('downloadForm').onsubmit = function(e) {
 
       const image = getPreviewImage(response);
       document.querySelector('.main').appendChild(image);
+    });
+};
+
+document.querySelector('.dir-list-btn').onclick = function(e) {
+  const request = new HttpRequest({  // eslint-disable-line
+    baseUrl: 'http://localhost:8000'
+  });
+  request.get('/list', { responseType: 'json' })
+    .then(({ response }) => {
+      const listContainer = document.querySelector('.dir-list');
+      listContainer.innerHTML = '';
+      const ul = getFilledList(response);
+      listContainer.appendChild(ul);
+      listContainer.style.borderWidth = '1px';
     });
 };
