@@ -29,6 +29,9 @@ document.getElementById('uploadForm').onsubmit = function(e) {
 
   form.append('sampleFile', e.target.sampleFile.files[0]);
   reuest.post('/upload', { data: form, onUploadProgress: onUpload, responseType: 'blob' }) // eslint-disable-line
+    .then(response => {
+      document.querySelector('.user-message').innerHTML = 'Success: File was uploaded';
+    });
 };
 
 document.getElementById('downloadForm').onsubmit = function(e) {
@@ -40,6 +43,7 @@ document.getElementById('downloadForm').onsubmit = function(e) {
 
   request.get(`/files/${fileName}`, { responseType: 'blob', onDownloadProgress: onDownload }) // eslint-disable-line
     .then(response => {
+      document.querySelector('.user-message').innerHTML = 'Success: File was downloaded';
       downloadFile(response, fileName); // eslint-disable-line
       return response;
     })
