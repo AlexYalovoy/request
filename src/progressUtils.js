@@ -35,6 +35,12 @@ function isImage(contentType) {
 
 function getFilledList(response) {
   const ul = document.createElement('ul');
+
+  if (response.length === 0) {
+    ul.innerText = 'List is empty!';
+    return ul;
+  }
+
   response.forEach(el => {
     ul.innerHTML += `<li>${el}</li>`;
   });

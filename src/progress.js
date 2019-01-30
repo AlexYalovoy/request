@@ -60,7 +60,7 @@ document.querySelector('.dir-list-btn').onclick = function(e) {
   const request = new HttpRequest({  // eslint-disable-line
     baseUrl: 'http://localhost:8000'
   });
-  request.get('/list', { responseType: 'json' })
+  request.get('/list')
     .then(response => {
       const listContainer = document.querySelector('.dir-list');
       const ul = getFilledList(response); // eslint-disable-line
