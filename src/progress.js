@@ -48,7 +48,8 @@ document.getElementById('downloadForm').onsubmit = function(e) {
         return;
       }
       setPreviewImage(response); // eslint-disable-line
-    });
+    })
+    .catch(err => (document.querySelector('.user-message').innerHTML = err));
 };
 
 document.querySelector('.dir-list-btn').onclick = function(e) {

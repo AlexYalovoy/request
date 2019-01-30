@@ -18,7 +18,7 @@ class HttpRequest {
     return new Promise((resolve, reject) => {
       const xhr = getconfiguratedXHR(customConfig); // eslint-disable-line
 
-      xhr.onload = onLoad(xhr, transformResponse, resolve); // eslint-disable-line
+      xhr.onload = onLoad({xhr, transformResponse, resolve, reject}); // eslint-disable-line
       xhr.onerror = onError(xhr, reject); // eslint-disable-line
 
       xhr.send();
@@ -39,7 +39,7 @@ class HttpRequest {
     return new Promise((resolve, reject) => {
       const xhr = getconfiguratedXHR(customConfig); // eslint-disable-line
 
-      xhr.onload = onLoad(xhr, transformResponse, resolve); // eslint-disable-line
+      xhr.onload = onLoad({xhr, transformResponse, resolve, reject}); // eslint-disable-line
       xhr.onerror = onError(xhr, reject); // eslint-disable-line
 
       xhr.send(data);

@@ -41,9 +41,12 @@ function isFunctionsArray(array) {
   return true;
 }
 
-function onLoad(xhr, transformResponse, resolve) {
+function onLoad({ xhr, transformResponse, resolve, reject }) {
   return () => {
-    const type = xhr.getResponseHeader('Content-Type');
+    if (xhr.status === 404) {
+      return reject(new Error('File was not found'));
+    }
+
     let transformedResponse = null;
 
     if (isFunctionsArray(transformResponse)) {

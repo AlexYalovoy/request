@@ -19,6 +19,10 @@ main {
   flex-direction: column;
 }
 
+.progress {
+  margin-bottom: 16px;
+}
+
 #downloadProgress, #downloadProgress-container {
   height: 5px;
   position: fixed;
@@ -56,7 +60,6 @@ main {
   flex-direction: column;
   text-align: center;
   color: #6c757d;
-  
 }
 
 .dir-list-wrapper {
@@ -94,4 +97,10 @@ main {
 
 .exit-btn:hover {
   cursor: pointer;
+}
+
+.user-message {
+  color: #6c757d;
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
 }

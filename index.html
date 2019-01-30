@@ -1,46 +1,48 @@
 <html>
   <head>
     <link rel = 'stylesheet' href = './index.css'>
-    <link rel="stylesheet" 
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-      crossorigin="anonymous">
+    <link rel='stylesheet' 
+      href='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css'
+      integrity='sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS'
+      crossorigin='anonymous'>
     <title>Request</title>
-    <link rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
-      crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel='stylesheet'
+      href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'
+      integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ'
+      crossorigin='anonymous'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
   </head>
   <body class = 'body'>
-    <div class="progress" id = 'downloadProgress-container'>
-      <div class="progress-bar" id = 'downloadProgress' role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class='progress' id = 'downloadProgress-container'>
+      <div class='progress-bar' id = 'downloadProgress' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div>
     </div>
     <main class = 'main'>
       <section class = 'forms'>
         <form id='uploadForm' class='form-group'
-          encType="multipart/form-data">
-          <div class="input-group">
-            <div class="custom-file">
-              <input type="file" name="sampleFile" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-              <label class="upload-label custom-file-label" for="inputGroupFile04">Choose file</label>
+          encType='multipart/form-data'>
+          <div class='input-group'>
+            <div class='custom-file'>
+              <input type='file' name='sampleFile' class='custom-file-input' id='inputGroupFile04' aria-describedby='inputGroupFileAddon04'>
+              <label class='upload-label custom-file-label' for='inputGroupFile04'>Choose file</label>
             </div>
-            <div class="input-group-append">
-              <button class="upload-btn btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04" disabled>Upload</button>
+            <div class='input-group-append'>
+              <button class='upload-btn btn btn-outline-secondary' type='submit' id='inputGroupFileAddon04' disabled>Upload</button>
             </div>
           </div>
         </form>
         <form id='downloadForm' class='form-group'>
-          <div class="input-group mb-3">
-            <input type="text" class="download-input form-control" placeholder="Enter download filename" aria-label="Recipient's username" aria-describedby="button-addon2">
-            <div class="input-group-append">
-              <button class="download-btn btn btn-outline-secondary" type="submit" id="button-addon2" disabled>Download</button>
+          <div class='input-group mb-3'>
+            <input type='text' class='download-input form-control' placeholder='Enter download filename' aria-label='Recipient's username' aria-describedby='button-addon2'>
+            <div class='input-group-append'>
+              <button class='download-btn btn btn-outline-secondary' type='submit' id='button-addon2' disabled>Download</button>
             </div>
           </div>
-          <div class="progress" id = 'uploadProgress-container'>
-            <div class="progress-bar" id = 'uploadProgress' role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
         </form>
+        <div class='progress' id = 'uploadProgress-container'>
+          <div class='progress-bar' id = 'uploadProgress' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div>
+        </div>
+        <div class = 'user-message'>
+        </div>
       </section>
       <section class = 'dir-list-wrapper'>
         <button class = 'dir-list-btn btn btn-outline-secondary'>Get remote files</button>
@@ -48,9 +50,9 @@
       </section>
     </main>
 </body>
-<script src="/HttpRequestUtils.js" ></script>
-<script src="/HttpRequest.js" ></script>
-<script src="/onProgress.js" ></script>
-<script src="/progressUtils.js" ></script>
-<script src="/progress.js" ></script>
+<script src='/HttpRequestUtils.js' ></script>
+<script src='/HttpRequest.js' ></script>
+<script src='/onProgress.js' ></script>
+<script src='/progressUtils.js' ></script>
+<script src='/progress.js' ></script>
 </html>
