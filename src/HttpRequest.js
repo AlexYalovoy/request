@@ -1,49 +1,64 @@
+/* eslint-disable no-undef */
 class HttpRequest {
   constructor({ baseUrl, headers }) {
     this.baseUrl = baseUrl;
     this.headers = headers;
   }
 
-  get(url, config = {}) {
-    const { transformResponse, headers, params, responseType, onDownloadProgress } = config;
-    const finalUrl = getFinalUrl(this.baseUrl, url, params); // eslint-disable-line
-    const customConfig = {
-      method: 'GET',
-      finalUrl,
-      headers: { ...this.headers, ...headers },
+  __getPromisedRequest(method, url, config) {
+    const {
+      transformResponse,
+      headers,
+      params,
       responseType,
+      data,
+      onUploadProgress,
       onDownloadProgress
-    };
+    } = config;
+    const finalUrl = getFinalUrl(this.baseUrl, url, params);  // eslint-disable-line
+
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, finalUrl);
+    xhr.responseType = responseType === undefined ? 'json' : responseType;
+
+    for (const key in headers) {
+      xhr.setRequestHeader(key, headers[key]);
+    }
+
+    xhr.onprogress = onDownloadProgress;
+    xhr.upload.onprogress = onUploadProgress;
 
     return new Promise((resolve, reject) => {
-      const xhr = getconfiguratedXHR(customConfig); // eslint-disable-line
+      xhr.onload = function(e) {
+        if (xhr.status === 404) {
+          return reject(new Error('File was not found'));
+        }
 
-      xhr.onload = onLoad({xhr, transformResponse, resolve, reject}); // eslint-disable-line
-      xhr.onerror = onError(xhr, reject); // eslint-disable-line
+        let transformedResponse = null;
 
-      xhr.send();
-    });
-  }
+        if (isFunctionsArray(transformResponse)) {
+          transformedResponse = transformResponse.reduce((acc, f) => f(acc), xhr.response);
+        } else {
+          transformedResponse = xhr.response;
+        }
 
-  post(url, config = {}) {
-    const { transformResponse, headers, responseType, data, onUploadProgress } = config;
-    const finalUrl = getFinalUrl(this.baseUrl, url);  // eslint-disable-line
-    const customConfig = {
-      method: 'POST',
-      finalUrl,
-      headers: { ...this.headers, ...headers },
-      responseType,
-      onUploadProgress
-    };
-
-    return new Promise((resolve, reject) => {
-      const xhr = getconfiguratedXHR(customConfig); // eslint-disable-line
-
-      xhr.onload = onLoad({xhr, transformResponse, resolve, reject}); // eslint-disable-line
-      xhr.onerror = onError(xhr, reject); // eslint-disable-line
+        resolve(transformedResponse);
+      };
+      xhr.onerror = function(e) {
+        reject(new Error(`There is ${xhr.status} code status. ${xhr.statusText}.`));
+      };
 
       xhr.send(data);
     });
+  }
+
+
+  get(url, config = {}) {
+    return this.__getPromisedRequest('GET', url, config);
+  }
+
+  post(url, config = {}) {
+    return this.__getPromisedRequest('POST', url, config);
   }
 }
 

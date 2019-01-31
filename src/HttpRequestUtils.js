@@ -8,24 +8,6 @@ function getFinalUrl(host, url, params) {
   return finalUrl;
 }
 
-function getconfiguratedXHR({ method, finalUrl, headers, responseType, onDownloadProgress, onUploadProgress }) {
-  const xhr = new XMLHttpRequest();
-  xhr.open(method, finalUrl);
-  xhr.responseType = responseType === undefined ? 'json' : responseType;
-
-  for (const key in headers) {
-    xhr.setRequestHeader(key, headers[key]);
-  }
-
-  if (method === 'GET' && onDownloadProgress !== undefined) {
-    xhr.onprogress = onDownloadProgress;
-  } else if (method === 'POST' && onUploadProgress !== undefined) {
-    xhr.upload.onprogress = onUploadProgress;
-  }
-
-  return xhr;
-}
-
 function isFunctionsArray(array) {
   if (array === undefined) {
     return false;
