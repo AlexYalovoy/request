@@ -7,10 +7,9 @@ app.use('/form', express.static(`${__dirname}/index.html`));
 app.use('/index.css', express.static(`${__dirname}/index.css`));
 app.use('/background.jpg', express.static(`${__dirname}/img/background.jpg`));
 app.use('/onProgress.js', express.static(`${__dirname}/src/onProgress.js`));
-app.use('/handlersUtils.js', express.static(`${__dirname}/src/handlersUtils.js`));
-app.use('/handlers.js', express.static(`${__dirname}/src/handlers.js`));
+app.use('/main.js', express.static(`${__dirname}/src/main.js`));
 app.use('/HttpRequest.js', express.static(`${__dirname}/src/HttpRequest.js`));
-app.use('/HttpRequestUtils.js', express.static(`${__dirname}/src/HttpRequestUtils.js`));
+app.use('/utils.js', express.static(`${__dirname}/src/utils.js`));
 app.use('/files', express.static(`${__dirname}/uploads`));
 
 // default options

@@ -1,12 +1,10 @@
-function downloadFile(response, fileName) {
+function saveFile(response, fileName) {
   const blob = new Blob([response], { type: response.type });
   const link = document.createElement('a');
   link.href = window.URL.createObjectURL(blob);
   link.download = fileName;
 
-  document.body.appendChild(link);
   link.click();
-  document.body.removeChild(link);
 }
 
 function getPreviewImage(response) {
@@ -28,9 +26,7 @@ function getPreviewImage(response) {
 }
 
 function isImage(contentType) {
-  const RE = (/image/);
-
-  return RE.test(contentType);
+  return (/image/).test(contentType);
 }
 
 function getFilledList(response) {
@@ -68,4 +64,28 @@ function setPreviewImage(response) {
 
   const image = getPreviewImage(response);
   document.querySelector('.forms').appendChild(image);
+}
+function getFinalUrl(host, url, params) {
+  const finalUrl = new URL(url, host);
+
+  for (const key in params) {
+    finalUrl.searchParams.set(key, params[key]);
+  }
+
+  return finalUrl;
+}
+
+function isFunctionsArray(array) {
+  if (array === undefined) {
+    return false;
+  }
+
+  array.every((el, i) => {
+    if (typeof el === 'function') {
+      return true;
+    }
+    throw new Error(`${i} element of transformResponse array isn't a function`);
+  });
+
+  return true;
 }
