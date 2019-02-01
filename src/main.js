@@ -1,5 +1,10 @@
+const inputFile = document.getElementsByName('sampleFile')[0];
+const downloadInput = document.getElementsByClassName('download-input')[0];
+const uploadForm = document.getElementsByClassName('uploadForm')[0];
+const downloadForm = document.getElementsByClassName('downloadForm')[0];
+const list = document.querySelector('.dir-list-btn');
 
-document.getElementsByName('sampleFile')[0].onchange = function(e) {
+function chooseFile(e) {
   const { files } = e.target;
 
   if (files.length > 0) {
@@ -8,9 +13,9 @@ document.getElementsByName('sampleFile')[0].onchange = function(e) {
     uploadButton.removeAttribute('disabled');
     label.innerHTML = `${files[0].name}`;
   }
-};
+}
 
-document.getElementsByClassName('download-input')[0].oninput = function(e) {
+function checkInput(e) {
   const downloadBtn = document.getElementsByClassName('download-btn')[0];
 
   if (!e.target.value) {
@@ -18,9 +23,9 @@ document.getElementsByClassName('download-input')[0].oninput = function(e) {
   } else {
     downloadBtn.removeAttribute('disabled');
   }
-};
+}
 
-document.getElementsByClassName('uploadForm')[0].onsubmit = function(e) {
+function sendUploadRequest(e) {
   e.preventDefault();
   const form = new FormData();
   const reuest = new HttpRequest({  // eslint-disable-line
@@ -32,9 +37,9 @@ document.getElementsByClassName('uploadForm')[0].onsubmit = function(e) {
     .then(response => {
       document.querySelector('.user-message').innerHTML = 'Success: File was uploaded';
     });
-};
+}
 
-document.getElementsByClassName('downloadForm')[0].onsubmit = function(e) {
+function sendDownloadRequest(e) {
   e.preventDefault();
   const request = new HttpRequest({ // eslint-disable-line
     baseUrl: 'http://localhost:8000'
@@ -54,9 +59,9 @@ document.getElementsByClassName('downloadForm')[0].onsubmit = function(e) {
       setPreviewImage(response); // eslint-disable-line
     })
     .catch(err => (document.querySelector('.user-message').innerHTML = err));
-};
+}
 
-document.querySelector('.dir-list-btn').onclick = function(e) {
+function sendListRequest(e) {
   const request = new HttpRequest({  // eslint-disable-line
     baseUrl: 'http://localhost:8000'
   });
@@ -69,4 +74,10 @@ document.querySelector('.dir-list-btn').onclick = function(e) {
       ul.appendChild(getExitButton()); // eslint-disable-line
       listContainer.appendChild(ul);
     });
-};
+}
+
+inputFile.onchange = chooseFile;
+downloadInput.oninput = checkInput;
+uploadForm.onsubmit = sendUploadRequest;
+downloadForm.onsubmit = sendDownloadRequest;
+list.onclick = sendListRequest;
