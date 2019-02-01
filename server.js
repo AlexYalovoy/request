@@ -9,6 +9,7 @@ app.use('/background.jpg', express.static(`${__dirname}/img/background.jpg`));
 app.use('/onProgress.js', express.static(`${__dirname}/src/onProgress.js`));
 app.use('/main.js', express.static(`${__dirname}/src/main.js`));
 app.use('/HttpRequest.js', express.static(`${__dirname}/src/HttpRequest.js`));
+app.use('/list.js', express.static(`${__dirname}/src/list.js`));
 app.use('/utils.js', express.static(`${__dirname}/src/utils.js`));
 app.use('/files', express.static(`${__dirname}/uploads`));
 
