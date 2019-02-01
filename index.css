@@ -23,14 +23,14 @@ main {
   margin-bottom: 16px;
 }
 
-#downloadProgress, #downloadProgress-container {
+.downloadProgress,.downloadProgress-container {
   height: 5px;
   position: fixed;
   top: 0;
 }
 
-#uploadProgress, #downloadProgress  {
-  background-color: black;
+.uploadProgress, .downloadProgress  {
+  background-color: black !important;
 }
 
 .input-group {

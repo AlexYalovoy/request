@@ -20,7 +20,7 @@ document.getElementsByClassName('download-input')[0].oninput = function(e) {
   }
 };
 
-document.getElementById('uploadForm').onsubmit = function(e) {
+document.getElementsByClassName('uploadForm')[0].onsubmit = function(e) {
   e.preventDefault();
   const form = new FormData();
   const reuest = new HttpRequest({  // eslint-disable-line
@@ -34,7 +34,7 @@ document.getElementById('uploadForm').onsubmit = function(e) {
     });
 };
 
-document.getElementById('downloadForm').onsubmit = function(e) {
+document.getElementsByClassName('downloadForm')[0].onsubmit = function(e) {
   e.preventDefault();
   const request = new HttpRequest({ // eslint-disable-line
     baseUrl: 'http://localhost:8000'
@@ -44,7 +44,7 @@ document.getElementById('downloadForm').onsubmit = function(e) {
   request.get(`/files/${fileName}`, { responseType: 'blob', onDownloadProgress: onDownload }) // eslint-disable-line
     .then(response => {
       document.querySelector('.user-message').innerHTML = 'Success: File was downloaded';
-      downloadFile(response, fileName); // eslint-disable-line
+      saveFile(response, fileName); // eslint-disable-line
       return response;
     })
     .then(response => {

@@ -24,6 +24,6 @@
     };
   }
 
-  window.onUpload = onProgress(document.getElementById('uploadProgress'));
-  window.onDownload = onProgress(document.getElementById('downloadProgress'));
+  window.onUpload = onProgress(document.getElementsByClassName('uploadProgress')[0]);
+  window.onDownload = onProgress(document.getElementsByClassName('downloadProgress')[0]);
 })();
