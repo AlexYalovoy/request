@@ -29,33 +29,6 @@ function isImage(contentType) {
   return (/image/).test(contentType);
 }
 
-function getFilledList(response) {
-  const ul = document.createElement('ul');
-
-  if (response.length === 0) {
-    ul.innerText = 'List is empty!';
-    return ul;
-  }
-
-  response.forEach(el => {
-    ul.innerHTML += `<li>${el}</li>`;
-  });
-  return ul;
-}
-
-function getExitButton() {
-  const button = document.createElement('i');
-  button.classList.add('far');
-  button.classList.add('fa-times-circle');
-  button.classList.add('exit-btn');
-  button.onclick = e => {
-    const listWrapper = document.querySelector('.dir-list');
-    const list = document.querySelector('.dir-list ul');
-    listWrapper.removeChild(list);
-  };
-  return button;
-}
-
 function setPreviewImage(response) {
   if (document.querySelector('.preview')) {
     document.querySelector('.preview-image').src = URL.createObjectURL(response);

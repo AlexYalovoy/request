@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const inputFile = document.getElementsByName('sampleFile')[0];
 const downloadInput = document.getElementsByClassName('download-input')[0];
 const uploadForm = document.getElementsByClassName('uploadForm')[0];
@@ -31,12 +32,12 @@ function checkDownloadInput(e) {
 function sendUploadRequest(e) {
   e.preventDefault();
   const form = new FormData();
-  const reuest = new HttpRequest({  // eslint-disable-line
+  const reuest = new HttpRequest({
     baseUrl: 'http://localhost:8000'
   });
 
   form.append('sampleFile', e.target.sampleFile.files[0]);
-  reuest.post('/upload', { data: form, onUploadProgress: onUpload, responseType: 'blob' }) // eslint-disable-line
+  reuest.post('/upload', { data: form, onUploadProgress: onUpload, responseType: 'blob' })
     .then(response => {
       document.querySelector('.user-message').innerHTML = 'Success: File was uploaded';
     });
@@ -46,37 +47,28 @@ function sendDownloadRequest(e) {
   e.preventDefault();
 
   const fileName = document.querySelector('input[type=text]').value;
-  const request = new HttpRequest({ // eslint-disable-line
+  const request = new HttpRequest({
     baseUrl: 'http://localhost:8000'
   });
 
-  request.get(`/files/${fileName}`, { responseType: 'blob', onDownloadProgress: onDownload }) // eslint-disable-line
+  request.get(`/files/${fileName}`, { responseType: 'blob', onDownloadProgress: onDownload })
     .then(response => {
       document.querySelector('.user-message').innerHTML = 'Success: File was downloaded';
-      saveFile(response, fileName); // eslint-disable-line
+      saveFile(response, fileName);
       return response;
     })
     .then(response => {
-      if (!isImage(response.type)) { // eslint-disable-line
+      if (!isImage(response.type)) {
         return;
       }
-      setPreviewImage(response); // eslint-disable-line
+      setPreviewImage(response);
     })
     .catch(err => (document.querySelector('.user-message').innerHTML = err));
 }
 
-function sendListRequest(e) {
-  const request = new HttpRequest({  // eslint-disable-line
-    baseUrl: 'http://localhost:8000'
-  });
-  request.get('/list')
-    .then(response => {
-      const ul = getFilledList(response); // eslint-disable-line
-
-      listContainer.innerHTML = '';
-      ul.appendChild(getExitButton()); // eslint-disable-line
-      listContainer.appendChild(ul);
-    });
+function sendListRequest() {
+  const list = new List(listContainer);
+  list.update();
 }
 
 inputFile.onchange = checkUploadInput;

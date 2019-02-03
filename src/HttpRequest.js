@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 class HttpRequest {
-  static GET(url, config = {}) {
+  static get(url, config = {}) {
     const request = new this({ baseUrl: url });
 
     return request.__getPromisedRequest('GET', '', config);
