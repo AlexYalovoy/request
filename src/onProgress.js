@@ -10,17 +10,18 @@
       document.title = `${parseInt(e.loaded * 100 / e.total, 10)}% ${initTitle}`;
 
       if (e.loaded === e.total && e.total === 0) {
-        node.style.opacity = 1;
+        node.classList.add('visible');
       }
 
       if (e.loaded === e.total && e.total !== 0) {
         setTimeout(() => {
-          node.style.opacity = 0;
-          node.style.width = 0;
+          node.classList.remove('visible');
+          node.classList.add('not-visible');
           document.title = initTitle;
         }, 500);
         setTimeout(() => {
-          node.style.opacity = 1;
+          node.classList.remove('not-visible');
+          node.classList.add('visible');
         }, 1500);
       }
     };

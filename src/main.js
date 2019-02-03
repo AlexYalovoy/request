@@ -39,7 +39,7 @@ function sendUploadRequest(e) {
 
   form.append('sampleFile', file);
   HttpRequest.post(`${host}/upload`, { data: form, onUploadProgress: onUpload, responseType: 'blob' })
-    .then(() => showMessage('Success: File was downloaded'));
+    .then(() => showMessage('Success: File was uploaded'));
 }
 
 function sendDownloadRequest(e) {
