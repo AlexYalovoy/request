@@ -13,14 +13,15 @@
   }
 
   class List {
-    constructor(parentNode) {
+    constructor(parentNode, url) {
       this.data = null;
       this.parentNode = parentNode;
       this.node = null;
+      this.url = url;
     }
 
     setData() {
-      return HttpRequest.get('http://localhost:8000/list')
+      return HttpRequest.get(this.url)
         .then(response => (this.data = response));
     }
 

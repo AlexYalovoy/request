@@ -1,4 +1,3 @@
-const figure = document.getElementsByClassName('preview')[0];
 const panel = document.getElementsByClassName('upload-download-panel')[0];
 const userMessage = document.getElementsByClassName('user-message')[0];
 
@@ -18,7 +17,7 @@ function getPreviewImage(url) {
   `;
 }
 
-function setPreviewImage(response) {
+function setPreviewImage(response, figure) {
   const figureImage = document.getElementsByClassName('preview-image')[0];
   const url = URL.createObjectURL(response);
 

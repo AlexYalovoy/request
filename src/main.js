@@ -9,6 +9,7 @@ const uploadButton = document.getElementsByClassName('upload-btn')[0];
 const uploadLabel = document.getElementsByClassName('custom-file-label')[0];
 const downloadBtn = document.getElementsByClassName('download-btn')[0];
 const listContainer = document.querySelector('.dir-list');
+const previewFigure = document.getElementsByClassName('preview')[0];
 const host = 'http://localhost:8000';
 
 function checkUploadInput(e) {
@@ -56,13 +57,13 @@ function sendDownloadRequest(e) {
         return;
       }
 
-      setPreviewImage(response);
+      setPreviewImage(response, previewFigure);
     })
     .catch(err => showMessage);
 }
 
 function sendListRequest() {
-  const list = new List(listContainer);
+  const list = new List(listContainer, `${host}/list`);
   list.update();
 }
 
