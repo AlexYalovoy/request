@@ -27,7 +27,7 @@ class HttpRequest {
       onUploadProgress,
       onDownloadProgress
     } = config;
-    const finalUrl = getFinalUrl(this.baseUrl, url, params);  // eslint-disable-line
+    const finalUrl = getFinalUrl(this.baseUrl, url, params);
 
     const xhr = new XMLHttpRequest();
     xhr.open(method, finalUrl);
