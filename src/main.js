@@ -32,12 +32,9 @@ function checkDownloadInput(e) {
 function sendUploadRequest(e) {
   e.preventDefault();
   const form = new FormData();
-  const reuest = new HttpRequest({
-    baseUrl: 'http://localhost:8000'
-  });
 
   form.append('sampleFile', e.target.sampleFile.files[0]);
-  reuest.post('/upload', { data: form, onUploadProgress: onUpload, responseType: 'blob' })
+  HttpRequest.post('http://localhost:8000/upload', { data: form, onUploadProgress: onUpload, responseType: 'blob' })
     .then(response => {
       document.querySelector('.user-message').innerHTML = 'Success: File was uploaded';
     });
@@ -45,13 +42,9 @@ function sendUploadRequest(e) {
 
 function sendDownloadRequest(e) {
   e.preventDefault();
-
   const fileName = document.querySelector('input[type=text]').value;
-  const request = new HttpRequest({
-    baseUrl: 'http://localhost:8000'
-  });
 
-  request.get(`/files/${fileName}`, { responseType: 'blob', onDownloadProgress: onDownload })
+  HttpRequest.get(`http://localhost:8000/files/${fileName}`, { responseType: 'blob', onDownloadProgress: onDownload })
     .then(response => {
       document.querySelector('.user-message').innerHTML = 'Success: File was downloaded';
       saveFile(response, fileName);

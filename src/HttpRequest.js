@@ -1,14 +1,20 @@
 /* eslint-disable no-undef */
 class HttpRequest {
+  constructor({ baseUrl, headers }) {
+    this.baseUrl = baseUrl;
+    this.headers = headers;
+  }
+
   static get(url, config = {}) {
     const request = new this({ baseUrl: url });
 
     return request.__getPromisedRequest('GET', '', config);
   }
 
-  constructor({ baseUrl, headers }) {
-    this.baseUrl = baseUrl;
-    this.headers = headers;
+  static post(url, config = {}) {
+    const request = new this({ baseUrl: url });
+
+    return request.__getPromisedRequest('POST', '', config);
   }
 
   __getPromisedRequest(method, url, config) {
