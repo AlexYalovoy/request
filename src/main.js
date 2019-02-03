@@ -1,3 +1,4 @@
+/* eslint-disable handle-callback-err */
 /* eslint-disable no-undef */
 const inputFile = document.getElementsByName('sampleFile')[0];
 const downloadInput = document.getElementsByClassName('download-input')[0];
@@ -8,6 +9,7 @@ const uploadButton = document.getElementsByClassName('upload-btn')[0];
 const uploadLabel = document.getElementsByClassName('custom-file-label')[0];
 const downloadBtn = document.getElementsByClassName('download-btn')[0];
 const listContainer = document.querySelector('.dir-list');
+const host = 'http://localhost:8000';
 
 function checkUploadInput(e) {
   const { files } = e.target;
@@ -32,21 +34,20 @@ function checkDownloadInput(e) {
 function sendUploadRequest(e) {
   e.preventDefault();
   const form = new FormData();
+  const file = e.target.sampleFile.files[0];
 
-  form.append('sampleFile', e.target.sampleFile.files[0]);
-  HttpRequest.post('http://localhost:8000/upload', { data: form, onUploadProgress: onUpload, responseType: 'blob' })
-    .then(response => {
-      document.querySelector('.user-message').innerHTML = 'Success: File was uploaded';
-    });
+  form.append('sampleFile', file);
+  HttpRequest.post(`${host}/upload`, { data: form, onUploadProgress: onUpload, responseType: 'blob' })
+    .then(() => showMessage('Success: File was downloaded'));
 }
 
 function sendDownloadRequest(e) {
   e.preventDefault();
   const fileName = document.querySelector('input[type=text]').value;
 
-  HttpRequest.get(`http://localhost:8000/files/${fileName}`, { responseType: 'blob', onDownloadProgress: onDownload })
+  HttpRequest.get(`${host}/files/${fileName}`, { responseType: 'blob', onDownloadProgress: onDownload })
     .then(response => {
-      document.querySelector('.user-message').innerHTML = 'Success: File was downloaded';
+      showMessage('Success: File was downloaded');
       saveFile(response, fileName);
       return response;
     })
@@ -54,9 +55,10 @@ function sendDownloadRequest(e) {
       if (!isImage(response.type)) {
         return;
       }
+
       setPreviewImage(response);
     })
-    .catch(err => (document.querySelector('.user-message').innerHTML = err));
+    .catch(err => showMessage);
 }
 
 function sendListRequest() {

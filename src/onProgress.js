@@ -1,5 +1,7 @@
 /* eslint-disable wrap-iife */
 (function() {
+  const uploadProgressBar = document.getElementsByClassName('uploadProgress')[0];
+  const downloadProgressBar = document.getElementsByClassName('downloadProgress')[0];
   const initTitle = document.title;
 
   function onProgress(node) {
@@ -24,6 +26,6 @@
     };
   }
 
-  window.onUpload = onProgress(document.getElementsByClassName('uploadProgress')[0]);
-  window.onDownload = onProgress(document.getElementsByClassName('downloadProgress')[0]);
+  window.onUpload = onProgress(uploadProgressBar);
+  window.onDownload = onProgress(downloadProgressBar);
 })();

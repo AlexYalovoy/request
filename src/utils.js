@@ -1,3 +1,7 @@
+const figure = document.getElementsByClassName('preview')[0];
+const panel = document.getElementsByClassName('upload-download-panel')[0];
+const userMessage = document.getElementsByClassName('user-message')[0];
+
 function saveFile(response, fileName) {
   const blob = new Blob([response], { type: response.type });
   const link = document.createElement('a');
@@ -7,37 +11,29 @@ function saveFile(response, fileName) {
   link.click();
 }
 
-function getPreviewImage(response) {
+function getPreviewImage(url) {
+  return `
+    <img src = ${url} class = 'preview-image'>
+    <figcaption>Preview image</figcaption>
+  `;
+}
+
+function setPreviewImage(response) {
+  const figureImage = document.getElementsByClassName('preview-image')[0];
   const url = URL.createObjectURL(response);
-  let figure = document.getElementsByClassName('preview')[0];
-  let img = document.getElementsByClassName('preview-image')[0];
 
-  figure = document.createElement('figure');
-  figure.className = 'preview';
-  img = document.createElement('img');
-  img.className = 'preview-image';
-  img.src = url;
-  const figcaption = document.createElement('figcaption');
-  figcaption.innerText = 'Preview image';
-  figure.appendChild(img);
-  figure.appendChild(figcaption);
+  if (figureImage) {
+    figureImage.src = url;
+    return;
+  }
 
-  return figure;
+  figure.innerHTML = getPreviewImage(url);
 }
 
 function isImage(contentType) {
   return (/image/).test(contentType);
 }
 
-function setPreviewImage(response) {
-  if (document.querySelector('.preview')) {
-    document.querySelector('.preview-image').src = URL.createObjectURL(response);
-    return;
-  }
-
-  const image = getPreviewImage(response);
-  document.querySelector('.forms').appendChild(image);
-}
 function getFinalUrl(host, url, params) {
   const finalUrl = new URL(url, host);
 
@@ -61,4 +57,8 @@ function isFunctionsArray(array) {
   });
 
   return true;
+}
+
+function showMessage(text) {
+  userMessage.innerText = text;
 }

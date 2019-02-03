@@ -14,7 +14,7 @@ main {
   padding: 0 15% 0;
 }
 
-.forms {
+.upload-download-panel {
   display: flex;
   flex-direction: column;
 }
