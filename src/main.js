@@ -53,11 +53,9 @@ function sendDownloadRequest(e) {
       return response;
     })
     .then(response => {
-      if (!isImage(response.type)) {
-        return;
+      if (isImage(response.type)) {
+        setPreviewImage(response, previewFigure);
       }
-
-      setPreviewImage(response, previewFigure);
     })
     .catch(err => showMessage);
 }
