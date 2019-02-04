@@ -11,6 +11,7 @@ const downloadBtn = document.getElementsByClassName('download-btn')[0];
 const listContainer = document.querySelector('.dir-list');
 const previewFigure = document.getElementsByClassName('preview')[0];
 const host = 'http://localhost:8000';
+const list = new List(listContainer, `${host}/list`);
 
 function checkUploadInput(e) {
   const { files } = e.target;
@@ -57,11 +58,10 @@ function sendDownloadRequest(e) {
         setPreviewImage(response, previewFigure);
       }
     })
-    .catch(err => showMessage);
+    .catch(showMessage);
 }
 
 function sendListRequest() {
-  const list = new List(listContainer, `${host}/list`);
   list.update();
 }
 
