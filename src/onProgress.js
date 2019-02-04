@@ -9,11 +9,7 @@
       node.style.width = `${e.loaded * 100 / e.total}%`;
       document.title = `${parseInt(e.loaded * 100 / e.total, 10)}% ${initTitle}`;
 
-      if (e.loaded === e.total && e.total === 0) {
-        node.classList.add('visible');
-      }
-
-      if (e.loaded === e.total && e.total !== 0) {
+      if (e.loaded === e.total) {
         setTimeout(() => {
           node.classList.remove('visible');
           node.classList.add('not-visible');
