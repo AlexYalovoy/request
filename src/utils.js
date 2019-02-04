@@ -1,4 +1,3 @@
-const panel = document.getElementsByClassName('upload-download-panel')[0];
 const userMessage = document.getElementsByClassName('user-message')[0];
 
 function saveFile(response, fileName) {
@@ -48,14 +47,12 @@ function isFunctionsArray(array) {
     return false;
   }
 
-  array.every((el, i) => {
+  return array.every((el, i) => {
     if (typeof el === 'function') {
       return true;
     }
     throw new Error(`${i} element of transformResponse array isn't a function`);
   });
-
-  return true;
 }
 
 function showMessage(text) {
