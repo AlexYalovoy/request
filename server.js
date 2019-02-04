@@ -2,6 +2,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const app = express();
 const fs = require('fs');
+const https = require('https');
 
 app.use('/form', express.static(`${__dirname}/index.html`));
 app.use('/index.css', express.static(`${__dirname}/index.css`));
@@ -54,6 +55,16 @@ app.post('/upload', function(req, res) {
   });
 });
 
-app.listen(8000, function() {
+const key = fs.readFileSync('./localhost.key');
+const cert = fs.readFileSync('./localhost.crt');
+
+const options = {
+  key,
+  cert,
+  requestCert: false,
+  rejectUnauthorized: false
+};
+
+https.createServer(options, app).listen(8000, function() {
   console.log('Express server listening on port 8000'); // eslint-disable-line
 });
