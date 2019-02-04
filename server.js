@@ -24,6 +24,7 @@ app.get('/ping', function(req, res) {
   res.send('pong');
 });
 app.get('/list', function(req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
   fs.readdir('./uploads', (err, files) => {
     if (err) {
       return res.send(err);
