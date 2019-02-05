@@ -12,6 +12,7 @@ const listContainer = document.querySelector('.dir-list');
 const previewFigure = document.getElementsByClassName('preview')[0];
 const host = 'https://localhost:8000';
 const list = new List(listContainer, `${host}/list`);
+const xhr = new HttpRequest({ baseUrl: host });
 
 function checkUploadInput(e) {
   const { files } = e.target;
@@ -39,7 +40,7 @@ function sendUploadRequest(e) {
   const file = e.target.sampleFile.files[0];
 
   form.append('sampleFile', file);
-  HttpRequest.post(`${host}/upload`, { data: form, onUploadProgress: onUpload, responseType: 'blob' })
+  xhr.post('/upload', { data: form, onUploadProgress: onUpload, responseType: 'blob' })
     .then(() => showMessage('Success: File was uploaded'));
 }
 
@@ -47,7 +48,7 @@ function sendDownloadRequest(e) {
   e.preventDefault();
   const fileName = document.querySelector('input[type=text]').value;
 
-  HttpRequest.get(`${host}/files/${fileName}`, { responseType: 'blob', onDownloadProgress: onDownload })
+  xhr.get(`/files/${fileName}`, { responseType: 'blob', onDownloadProgress: onDownload })
     .then(response => {
       showMessage('Success: File was downloaded');
       saveFile(response, fileName);

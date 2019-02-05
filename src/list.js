@@ -21,7 +21,7 @@
     }
 
     setData() {
-      return HttpRequest.get(this.url)
+      return xhr.get(this.url)
         .then(response => (this.data = response));
     }
 
