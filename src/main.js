@@ -10,7 +10,7 @@ const uploadLabel = document.getElementsByClassName('custom-file-label')[0];
 const downloadBtn = document.getElementsByClassName('download-btn')[0];
 const listContainer = document.querySelector('.dir-list');
 const previewFigure = document.getElementsByClassName('preview')[0];
-const host = 'https://192.168.200.221:8000';
+const host = 'https://192.168.202.214:8000';
 const list = new List(listContainer, `${host}/list`);
 
 function checkUploadInput(e) {
