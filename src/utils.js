@@ -1,5 +1,3 @@
-const userMessage = document.getElementsByClassName('user-message')[0];
-
 function saveFile(response, fileName) {
   const blob = new Blob([response], { type: response.type });
   const link = document.createElement('a');
@@ -53,8 +51,4 @@ function isFunctionsArray(array) {
     }
     throw new Error(`${i} element of transformResponse array isn't a function`);
   });
-}
-
-function showMessage(text) {
-  userMessage.innerText = text;
 }
