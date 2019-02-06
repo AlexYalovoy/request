@@ -12,11 +12,22 @@
     `;
   }
 
+  function exitClick(e) {
+    if (e.target.classList.contains('exit-btn')) {
+      this.remove();
+    }
+  }
+
   class List {
     constructor(parentNode) {
       this.data = null;
       this.parentNode = parentNode;
       this.node = null;
+      this.__init().call(this);
+    }
+
+    __init() {
+      document.querySelector('.dir-list').onclick = exitClick.bind(this);
     }
 
     setData() {
@@ -30,15 +41,11 @@
 
     update() {
       this.setData()
-        .then(() => this.render())
-        .then(() => {
-          this.node = this.parentNode.firstElementChild;
-          document.querySelector('.exit-btn').onclick = this.remove.bind(this);
-        });
+        .then(() => this.render());
     }
 
     remove() {
-      this.parentNode.removeChild(this.node);
+      this.parentNode.removeChild(this.parentNode.firstElementChild);
     }
   }
 
