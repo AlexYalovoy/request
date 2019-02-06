@@ -11,6 +11,7 @@ app.use('/onProgress.js', express.static(`${__dirname}/src/onProgress.js`));
 app.use('/main.js', express.static(`${__dirname}/src/main.js`));
 app.use('/message.js', express.static(`${__dirname}/src/message.js`));
 app.use('/HttpRequest.js', express.static(`${__dirname}/src/HttpRequest.js`));
+app.use('/xhrInstance.js', express.static(`${__dirname}/src/xhrInstance.js`));
 app.use('/list.js', express.static(`${__dirname}/src/list.js`));
 app.use('/utils.js', express.static(`${__dirname}/src/utils.js`));
 app.use('/files', express.static(`${__dirname}/uploads`));

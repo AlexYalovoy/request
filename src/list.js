@@ -23,7 +23,7 @@
       this.data = null;
       this.parentNode = parentNode;
       this.node = null;
-      this.__init().call(this);
+      this.__init();
     }
 
     __init() {
