@@ -13,15 +13,14 @@
   }
 
   class List {
-    constructor(parentNode, url) {
+    constructor(parentNode) {
       this.data = null;
       this.parentNode = parentNode;
       this.node = null;
-      this.url = url;
     }
 
     setData() {
-      return xhr.get(this.url)
+      return xhr.get('/list')
         .then(response => (this.data = response));
     }
 

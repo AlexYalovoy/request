@@ -11,7 +11,7 @@ const downloadBtn = document.getElementsByClassName('download-btn')[0];
 const listContainer = document.querySelector('.dir-list');
 const previewFigure = document.getElementsByClassName('preview')[0];
 const host = 'https://localhost:8000';
-const list = new List(listContainer, `${host}/list`);
+const list = new List(listContainer);
 const xhr = new HttpRequest({ baseUrl: host });
 
 function checkUploadInput(e) {
